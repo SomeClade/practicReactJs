@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Gauge with Fixed Text</title>
+</head>
+<body>
+<svg width="600" height="300" style="border: 1px solid black">
+    <!-- Gauge background -->
+    <path d="M150,250 A100,100 0 0,1 450,250" fill="none" stroke="black" stroke-width="20"/>
+    <text x="140" y="270" font-size="14" fill="red">Extreme Fear</text>
+    <text x="230" y="270" font-size="14" fill="orange">Fear</text>
+    <text x="310" y="270" font-size="14" fill="yellow">Neutral</text>
+    <text x="380" y="270" font-size="14" fill="green">Greed</text>
+    <text x="460" y="270" font-size="14" fill="darkgreen">Extreme Greed</text>
+
+    <!-- Needle, Base, and Value Display -->
+    <g id="needle" transform="translate(300,250)">
+        <circle cx="0" cy="0" r="30" fill="navy"/>
+        <text x="-7" y="10" font-size="20" fill="white">S</text>
+        <path d="M0,-150 L-10,0 L10,0 Z" fill="blue"/>
+        <!-- Value Display Circle -->
+        <circle cx="0" cy="-200" r="30" fill="yellow"/> <!-- Positioned outside the gauge -->
+        <!-- Fixed Text -->
+        <text id="value-text" x="-15" y="-190" font-size="20" fill="black">50</text>
+    </g>
+</svg>
+
+<script>
+    // Rotate the needle based on a new value
+    function rotateNeedle(newValue) {
+        const angle = newValue * 180 / 100 - 90; // Convert value to angle
+        document.getElementById('needle').setAttribute('transform', `translate(300,250) rotate(${angle})`);
+        // Counter-rotate the text to keep it horizontal
+        document.getElementById('value-text').setAttribute('transform', `rotate(${-angle}, 0, -200)`);
+    }
+
+    // Example of updating the needle on a click event
+    document.querySelector('svg').addEventListener('click', () => {
+        const newValue = Math.random() * 100; // Get a random new value between 0 and 100
+        rotateNeedle(newValue);
+    });
+</script>
+</body>
+</html>
